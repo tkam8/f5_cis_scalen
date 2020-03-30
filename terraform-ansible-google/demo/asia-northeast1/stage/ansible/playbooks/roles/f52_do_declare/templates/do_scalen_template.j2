@@ -1,0 +1,37 @@
+{
+    "schemaVersion": "1.11.0",
+    "class": "Device",
+    "async": true,
+    "label": "Onboard BIG-IP into DSC cluster",
+    "Common": {
+        "class": "Tenant",
+        "hostname": {{ ansible_hostname }},
+        "configsync": {
+            "class": "ConfigSync",
+            "configsyncIp": "/Common/internal-self/address"
+        },
+        "failoverAddress": {
+            "class": "FailoverUnicast",
+            "address": "/Common/internal-self/address"
+        },
+        "failoverGroup": {
+            "class": "DeviceGroup",
+            "type": "sync-failover",
+            "members": ["bigip1.example.com", "bigip2.example.com"],
+            "owner": "/Common/failoverGroup/members/0",
+            "autoSync": true,
+            "saveOnAutoSync": false,
+            "networkFailover": true,
+            "fullLoadOnSync": false,
+            "asmSync": false
+        },
+        "trust": {
+            "class": "DeviceTrust",
+            "localUsername": {{ ADMIN_USER }},
+            "localPassword": {{ ADMIN_PASSWORD }},
+            "remoteHost": "/Common/failoverGroup/members/0",
+            "remoteUsername": {{ ADMIN_USER }},
+            "remotePassword": {{ ADMIN_PASSWORD }}
+        }
+    }
+}
