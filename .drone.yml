@@ -38,7 +38,8 @@ steps:
   image: tkam8/tfansible:latest
   commands: 
   # Ansible complains that the drone generated netrc file being too permissive by default
-  - chmod 600 /root/.netrc
+  - ls -lah /root
+  #- chmod 600 /root/.netrc
   - cat terraform-ansible-google/demo/asia-northeast1/stage/ansible/playbooks/group_vars/F5_systems/vars
   - cd terraform-ansible-google/demo/asia-northeast1/stage/ansible/playbooks/
   - ansible-playbook --inventory inventory/hosts -vvvv site.yml
