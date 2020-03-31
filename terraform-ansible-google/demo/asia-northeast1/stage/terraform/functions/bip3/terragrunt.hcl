@@ -3,7 +3,7 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  source = "git@github.com:f5vcdn/vCDN-terraform-modules//gcp_f5_standalone_1NIC?ref=v0.1"
+  source = "github.com/tkam8/f5_cis_scalen_modules//gcp_f5_standalone_1NIC?ref=v0.1"
 }
 
 # Include all settings from the root terragrunt.hcl file
