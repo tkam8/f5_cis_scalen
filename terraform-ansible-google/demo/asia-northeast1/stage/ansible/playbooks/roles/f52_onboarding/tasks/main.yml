@@ -17,6 +17,7 @@
       password: "{{ ADMIN_PASSWORD }}"
       server_port: 8443
       validate_certs: no
+  delegate_to: localhost
   register: device_facts
 
 # Debug
