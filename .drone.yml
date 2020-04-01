@@ -36,6 +36,9 @@ steps:
 
 - name: Apply Ansible playbook (asia)
   image: tkam8/tfansible:latest
+  environment:
+    BIGIP_PASS:
+      from_secret: bigip_pass
   commands: 
   # Ansible complains that the drone generated netrc file being too permissive by default
   - ls -lah /root

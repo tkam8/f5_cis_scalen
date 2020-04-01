@@ -18,6 +18,7 @@
       password: "{{ ADMIN_PASSWORD }}"
       server_port: "{{ ADMIN_HTTPS_PORT }}"
       validate_certs: no
+      transport: rest
   delegate_to: localhost
   register: device_facts
 
