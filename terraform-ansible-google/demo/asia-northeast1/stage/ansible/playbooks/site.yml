@@ -1,23 +1,12 @@
 
 ---
 
-- name: Onboarding BIG-IP 1
-  hosts: F51_systems
+- name: Onboarding BIG-IP
+  hosts: F5_systems
   gather_facts: false
   roles:
-   - f51_onboarding
+   - f5_onboarding
 
-- name: Onboarding BIG-IP 2
-  hosts: F52_systems
-  gather_facts: false
-  roles:
-   - f52_onboarding
-
-- name: Onboarding BIG-IP 3
-  hosts: F53_systems
-  gather_facts: false
-  roles:
-   - f53_onboarding
 
 # - name: BIG-IP DO declaration
 #   hosts: F5_systems
@@ -25,23 +14,10 @@
 #   roles:
 #    - f51_do_declare
 
-- name: GKE 1 onboarding
-  hosts: gke1_systems
+- name: GKE onboarding
+  hosts: gke_systems
   connection: local
   gather_facts: true
   roles:
-   - gke1_onboarding
+   - gke_onboarding
 
-- name: GKE 2 onboarding
-  hosts: gke1_systems
-  connection: local
-  gather_facts: true
-  roles:
-   - gke2_onboarding
-
-- name: GKE 3 onboarding
-  hosts: gke1_systems
-  connection: local
-  gather_facts: true
-  roles:
-   - gke3_onboarding

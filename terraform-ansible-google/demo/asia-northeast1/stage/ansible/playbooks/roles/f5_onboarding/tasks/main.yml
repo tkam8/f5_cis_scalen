@@ -7,6 +7,7 @@
     timeout: 180
   delegate_to: localhost
 
+# Get BIG-IP facts
 - name: Collect BIG-IP Facts
   bigip_device_facts:
     gather_subset:
@@ -15,7 +16,7 @@
       server: "{{ inventory_hostname }}"
       user: "{{ ADMIN_USER }}"
       password: "{{ ADMIN_PASSWORD }}"
-      server_port: 8443
+      server_port: "{{ ADMIN_HTTPS_PORT }}"
       validate_certs: no
   delegate_to: localhost
   register: device_facts
