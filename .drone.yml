@@ -15,6 +15,8 @@ steps:
       from_secret: gke_username
     TF_VAR_gke_password:
       from_secret: gke_password
+    BIGIP_PASS:
+      from_secret: bigip_pass
   commands:
   - cd terraform-ansible-google/
   - terragrunt apply-all --terragrunt-non-interactive -auto-approve
