@@ -30,12 +30,12 @@
 # Debug
 - name: Display only hostname of BIG-IP Device
   debug:
-    var: device_facts['devices']['hostname']
+    var: device_facts.devices[0].hostname
 
 - name: Set new bigip_hostname from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
-    bigip_hostname: "{{ device_facts['devices']['hostname'] }}"
+    bigip_hostname: "{{ device_facts.devices[0].hostname }}"
 
 - name: Provision ASM at "nominal" level
   bigip_provision:
