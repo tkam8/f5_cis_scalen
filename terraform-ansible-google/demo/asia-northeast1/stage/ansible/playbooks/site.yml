@@ -3,7 +3,7 @@
 
 - name: Onboarding BIG-IP 1
   hosts: F51_systems
-  gather_facts: true
+  gather_facts: false
   roles:
    - f51_onboarding
 

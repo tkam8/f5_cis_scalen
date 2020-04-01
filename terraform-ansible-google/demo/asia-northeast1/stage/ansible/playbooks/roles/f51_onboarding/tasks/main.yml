@@ -7,6 +7,33 @@
     timeout: 180
   delegate_to: localhost
 
+- name: Collect BIG-IP Facts
+  bigip_device_info:
+    gather_subset:
+      - devices
+    provider:
+      server: "{{ inventory_hostname }}"
+      user: "{{ ADMIN_USER }}"
+      password: "{{ ADMIN_PASSWORD }}"
+      server_port: 8443
+      validate_certs: no
+  register: device_facts
+
+# Debug
+- name: Display complete information about BIG-IP Device
+  debug:
+    var: device_facts
+
+# Debug
+- name: Display only hostname of BIG-IP Device
+  debug:
+    var: device_facts['devices']['hostname']
+
+- name: Set new bigip_hostname from device_facts
+  # Currently this assumes 1 IP address in the list 
+  set_fact: 
+    bigip_hostname: "{{ device_facts['devices']['hostname'] }}"
+
 - name: Provision ASM at "nominal" level
   bigip_provision:
     module: asm
