@@ -8,7 +8,7 @@
   delegate_to: localhost
 
 - name: Collect BIG-IP Facts
-  bigip_device_info:
+  bigip_device_facts:
     gather_subset:
       - devices
     provider:
