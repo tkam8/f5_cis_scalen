@@ -14,10 +14,15 @@
   k8s:
     name: upstream1
     api_version: v1
-    host: "{{ gke1_url }}"
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    host: "{{ host.item }}"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
     kind: Namespace
     state: present
+  when: inventory_hostname == item.when
+  loop:
+    - { host: "{{ gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { host: "{{ gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { host: "{{ gke3_url }}", kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 # Create F5 CIS deployment with all prerequisites
 
@@ -30,8 +35,13 @@
 - name: Create F5 secret from a local file 
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
     definition: "{{ lookup('template', '{{ role_path }}/templates/secret_f5_cis.yml.j2') }}"
+  when: inventory_hostname == item.when
+  loop:
+    - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 # - name: Create F5 secret with inline definition
 #   k8s:
@@ -58,8 +68,13 @@
 - name: Create ServiceAccount, Clusterrole, clusterrolebinding from a local file 
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
     src: "{{ role_path }}/templates/svcacct_crbinding_f5_cis.yml"
+  when: inventory_hostname == item.when
+  loop:
+    - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 # Plan is to create a CIS deployment that points to a different BIG-IP
 # For each cluster, use a different cis deployment file that points to one BIG-IP
