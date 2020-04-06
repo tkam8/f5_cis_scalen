@@ -20,9 +20,9 @@
     state: present
   when: inventory_hostname == item.when
   loop:
-    - { host: "{{ gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
-    - { host: "{{ gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
-    - { host: "{{ gke3_url }}", kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+    - { host: "{{ groups['gke_systems'][0].gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { host: "{{ groups['gke_systems'][1].gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { host: "{{ groups['gke_systems'][2].gke3_url }}", kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 # Create F5 CIS deployment with all prerequisites
 
@@ -90,9 +90,9 @@
     wait_timeout: 240
   when: inventory_hostname == item.when
   loop:
-    - { definition: "{{ cis1 }}", when: "{{ groups['gke_systems'][0] }}" }
-    - { definition: "{{ cis2 }}", when: "{{ groups['gke_systems'][1] }}" }
-    - { definition: "{{ cis3 }}", when: "{{ groups['gke_systems'][2] }}" }
+    - { definition: cis1, when: "{{ groups['gke_systems'][0] }}" }
+    - { definition: cis2, when: "{{ groups['gke_systems'][1] }}" }
+    - { definition: cis3, when: "{{ groups['gke_systems'][2] }}" }
 
 
 # Create F5 CIS configmap to expose Kibana via BIG-IP
