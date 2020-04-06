@@ -5,7 +5,7 @@
     "label": "Onboard BIG-IP into DSC cluster",
     "Common": {
         "class": "Tenant",
-        "hostname": {{ bigip3_hostname }},
+        "hostname": {{ hostvars[groups['F5_systems'][2]].bigip3_hostname }},
         "configsync": {
             "class": "ConfigSync",
             "configsyncIp": {{ hostvars[groups['F5_systems'][2]].vs_ip }}
@@ -13,7 +13,7 @@
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
-            "members": [ {{ bigip_hostname1 }}, {{ bigip_hostname2 }}, {{ bigip_hostname3 }}],
+            "members": [ {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }}, {{ hostvars[groups['F5_systems'][1]].bigip2_hostname }}, {{ hostvars[groups['F5_systems'][2]].bigip3_hostname }}],
             "owner": "/Common/failoverGroup/members/0",
             "autoSync": false,
             "saveOnAutoSync": false,

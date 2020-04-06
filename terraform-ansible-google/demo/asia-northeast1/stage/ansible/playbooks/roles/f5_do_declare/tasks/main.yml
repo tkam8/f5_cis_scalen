@@ -56,17 +56,17 @@
 # Debug
 - name: Display hostname1 of BIG-IP Devices
   debug:
-    var: bigip1_hostname
+    var: "{{ hostvars[groups['F5_systems'][0]].bigip1_hostname }}" 
 
 # Debug
 - name: Display hostname2 of BIG-IP Devices
   debug:
-    var: bigip2_hostname
+    var: "{{ hostvars[groups['F5_systems'][1]].bigip2_hostname }}" 
 
 # Debug
 - name: Display hostname3 of BIG-IP Devices
   debug:
-    var: bigip3_hostname
+    var: "{{ hostvars[groups['F5_systems'][2]].bigip3_hostname }}" 
 
 # Loop through all BIG-IPs and only use the appropriate DO declaration
 - name: prepare the DO declaration 
