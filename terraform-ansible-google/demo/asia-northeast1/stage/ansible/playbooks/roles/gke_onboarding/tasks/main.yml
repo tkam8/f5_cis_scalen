@@ -81,7 +81,7 @@
 - name: Create the F5 CIS Deployment from a local file and wait to become ready
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
     definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_{{ item.definition }}.yml.j2') }}"
     wait: yes
     wait_condition: 
@@ -90,9 +90,9 @@
     wait_timeout: 240
   when: "{{ inventory_hostname == item.when }}"
   loop:
-    - { definition: cis1, when: "{{ groups['gke_systems'][0] }}" }
-    - { definition: cis2, when: "{{ groups['gke_systems'][1] }}" }
-    - { definition: cis3, when: "{{ groups['gke_systems'][2] }}" }
+    - { definition: cis1, kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { definition: cis2, kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { definition: cis3, kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 
 # Create NGINX Deployment 1 on all clusters
