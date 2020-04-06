@@ -14,8 +14,8 @@
   k8s:
     name: upstream1
     api_version: v1
-    host: host.item
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
+    host: "{{ item.host }}"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
     kind: Namespace
     state: present
   when: "{{ inventory_hostname == item.when }}"
