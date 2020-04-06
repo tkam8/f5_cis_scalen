@@ -8,12 +8,12 @@
 # debugging: Print ansible_hostname from gather facts
 - name: 
   debug:
-    msg: {{ ansible_facts }}
+    msg: "{{ ansible_facts }}"
 
 # debugging: Print ansible_hostname from gather facts
 - name: 
   debug:
-    msg: {{ ansible_hostname }}
+    msg: "{{ ansible_hostname }}"
 
 # Create Namespace
 - name: Create a k8s namespace
