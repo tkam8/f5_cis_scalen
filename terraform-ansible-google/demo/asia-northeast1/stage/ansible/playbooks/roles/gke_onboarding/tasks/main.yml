@@ -1,14 +1,24 @@
 ---
 
 # debugging
-- name: "Ansible | Print a variable"
+- name: "Ansible | Print role_path"
   debug:
     msg: "The role path is {{ role_path }}"
+
+# debugging: Print ansible_hostname from gather facts
+- name: 
+  debug:
+    msg: {{ ansible_facts }}
+
+# debugging: Print ansible_hostname from gather facts
+- name: 
+  debug:
+    msg: {{ ansible_hostname }}
 
 # Create Namespace
 - name: Create a k8s namespace
   k8s:
-    name: efk-logging
+    name: upstream1
     api_version: v1
     host: "{{ gke1_url }}"
     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
@@ -57,7 +67,8 @@
     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
     src: "{{ role_path }}/templates/svcacct_crbinding_f5_cis.yml"
 
-- name: Create the F5 Deployment from a local file and wait to become ready
+# Plan is to create a CIS deployment that points to a different BIG-IP, so will use "when" conditional
+- name: Create the F5 CIS Deployment from a local file and wait to become ready
   k8s:
     state: present
     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
@@ -67,6 +78,8 @@
       type=Available
       status=True
     wait_timeout: 240
+  when:
+      - ansible_facts['ip'] == "{{ groups['gke_systems'][0] }}"
 
 # Create F5 CIS configmap to expose Kibana via BIG-IP
 
