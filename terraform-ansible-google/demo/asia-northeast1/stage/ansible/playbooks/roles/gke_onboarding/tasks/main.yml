@@ -35,9 +35,9 @@
 - name: Create F5 secret from a local file 
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
     definition: "{{ lookup('template', '{{ role_path }}/templates/secret_f5_cis.yml.j2') }}"
-  when: inventory_hostname == item.when
+  when: "{{ inventory_hostname == item.when }}"
   loop:
     - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
     - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
@@ -68,9 +68,9 @@
 - name: Create ServiceAccount, Clusterrole, clusterrolebinding from a local file 
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
     src: "{{ role_path }}/templates/svcacct_crbinding_f5_cis.yml"
-  when: inventory_hostname == item.when
+  when: "{{ inventory_hostname == item.when }}"
   loop:
     - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
     - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
@@ -82,13 +82,13 @@
   k8s:
     state: present
     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
-    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_{{ definition.item }}.yml.j2') }}"
+    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_{{ item.definition }}.yml.j2') }}"
     wait: yes
     wait_condition: 
       type=Available
       status=True
     wait_timeout: 240
-  when: inventory_hostname == item.when
+  when: "{{ inventory_hostname == item.when }}"
   loop:
     - { definition: cis1, when: "{{ groups['gke_systems'][0] }}" }
     - { definition: cis2, when: "{{ groups['gke_systems'][1] }}" }
