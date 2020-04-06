@@ -95,13 +95,37 @@
     - { definition: cis3, when: "{{ groups['gke_systems'][2] }}" }
 
 
-# Create F5 CIS configmap to expose Kibana via BIG-IP
-
-- name: Create F5 CIS AS3 configmap from a local file 
+# Create NGINX Deployment 1 on all clusters
+- name: Create NGINX Deployment 1 from a local file 
   k8s:
     state: present
-    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
-    definition: "{{ lookup('template', '{{ role_path }}/templates/configmap_f5_cis.yml.j2') }}"
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
+    src: "{{ role_path }}/templates/pod_nginx1.yml"
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+
+# Create NGINX Deployment 2 on all clusters
+- name: Create NGINX Deployment 2 from a local file 
+  k8s:
+    state: present
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
+    src: "{{ role_path }}/templates/pod_nginx2.yml"
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+
+# Create F5 CIS configmap to expose Kibana via BIG-IP
+
+# - name: Create F5 CIS AS3 configmap from a local file 
+#   k8s:
+#     state: present
+#     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+#     definition: "{{ lookup('template', '{{ role_path }}/templates/configmap_f5_cis.yml.j2') }}"
 
 # - name: Get NGINX service
 #   k8s_facts:
