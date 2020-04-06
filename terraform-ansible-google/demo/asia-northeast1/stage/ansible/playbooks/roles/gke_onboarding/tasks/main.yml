@@ -20,9 +20,9 @@
     state: present
   when: inventory_hostname == item.when
   loop:
-    - { host: "{{ groups['gke_systems'][0].gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
-    - { host: "{{ groups['gke_systems'][1].gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
-    - { host: "{{ groups['gke_systems'][2].gke3_url }}", kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+    - { host: "{{ hostvars[groups['gke_systems'][0]].gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { host: "{{ hostvars[groups['gke_systems'][1]].gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { host: "{{ hostvars[groups['gke_systems'][2]].gke3_url }}", kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 # Create F5 CIS deployment with all prerequisites
 
