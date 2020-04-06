@@ -18,7 +18,7 @@
     kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ kubeconfig.item }}"
     kind: Namespace
     state: present
-  when: inventory_hostname == item.when
+  when: "{{ inventory_hostname == item.when }}"
   loop:
     - { host: "{{ hostvars[groups['gke_systems'][0]].gke1_url }}", kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
     - { host: "{{ hostvars[groups['gke_systems'][1]].gke2_url }}", kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
