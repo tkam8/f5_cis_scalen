@@ -8,11 +8,11 @@
    - f5_onboarding
 
 
-# - name: BIG-IP DO declaration
-#   hosts: F5_systems
-#   gather_facts: false
-#   roles:
-#    - f51_do_declare
+- name: BIG-IP DO declaration
+  hosts: F5_systems
+  gather_facts: false
+  roles:
+   - f5_do_declare
 
 - name: GKE onboarding
   hosts: gke_systems
