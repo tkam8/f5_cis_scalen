@@ -36,7 +36,22 @@
 - name: Set new bigip_hostname from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
-    bigip_hostname: "{{ device_facts.devices[0].hostname }}"
+    bigip_hostname1: "{{ item.bigip_hostname1 }}"
+    bigip_hostname2: "{{ item.bigip_hostname2 }}"
+    bigip_hostname3: "{{ item.bigip_hostname3 }}"
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { bigip_hostname1: "{{ device_facts.devices[0].hostname }}", when: "{{ groups['F5_systems'][0] }}" }
+    - { bigip_hostname2: "{{ device_facts.devices[0].hostname }}", when: "{{ groups['F5_systems'][1] }}" }
+    - { bigip_hostname3: "{{ device_facts.devices[0].hostname }}", when: "{{ groups['F5_systems'][2] }}" }
+
+# Debug
+- name: Display hostnames of BIG-IP Devices
+  debug:
+    var: bigip_hostname1
+    var: bigip_hostname2
+    var: bigip_hostname3
+
 
 - name: Provision ASM at "nominal" level
   bigip_provision:
