@@ -10,10 +10,6 @@
             "class": "ConfigSync",
             "configsyncIp": {{ hostvars[groups['F5_systems'][0]].vs_ip }}
         },
-        "failoverAddress": {
-            "class": "FailoverUnicast",
-            "address": {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
-        },
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
