@@ -5,24 +5,9 @@
   debug:
     msg: "The role path is {{ role_path }}"
 
-# # try setup again, this does not work
-# - name: "gather data from nodes"
-#   setup:
-#   delegate_to: "{{ item }}"
-#   delegate_facts: true
-#   with_items: "{{ ansible_play_batch }}"
-
 # show all the hosts in the current play
-- debug: List of active hosts in the current play
-    var: "{{ ansible_play_hosts }}"
-
-# show all the inventory hostnames in the current play
-- debug:
-    var: "{{ inventory_hostname }}"
-
-# show all the ansible hostnames in the current play
-- debug:
-    var: "{{ ansible_hostname }}"
+- name: find several related variables
+  debug: msg="{{ lookup('vars', 'ansible_play_hosts', 'ansible_play_batch', 'ansible_play_hosts_all') }}"
 
 # Create Namespace
 - name: Create a k8s namespace
