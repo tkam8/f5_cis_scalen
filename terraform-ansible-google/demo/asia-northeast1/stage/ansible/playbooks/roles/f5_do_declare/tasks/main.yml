@@ -35,6 +35,7 @@
   set_fact: 
     bigip1_hostname: "{{ device_facts.devices[0].hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][0] }}"
+  delegate_to: localhost
 
 # This hostname will be used in the DO declaration for setting up HA
 - name: Set new bigip2_hostname from device_facts
@@ -42,6 +43,7 @@
   set_fact: 
     bigip2_hostname: "{{ device_facts.devices[0].hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][1] }}"
+  delegate_to: localhost
 
 # This hostname will be used in the DO declaration for setting up HA
 - name: Set new bigip3_hostname from device_facts
@@ -49,6 +51,7 @@
   set_fact: 
     bigip3_hostname: "{{ device_facts.devices[0].hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][2] }}"
+  delegate_to: localhost
 
 # Debug
 - name: Display hostname1 of BIG-IP Devices
