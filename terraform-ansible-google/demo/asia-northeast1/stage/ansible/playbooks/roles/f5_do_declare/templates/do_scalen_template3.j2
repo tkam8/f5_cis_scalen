@@ -5,19 +5,19 @@
     "label": "Onboard BIG-IP into DSC cluster",
     "Common": {
         "class": "Tenant",
-        "hostname": {{ ansible_hostname }},
+        "hostname": {{ bigip3_hostname }},
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": "/Common/internal-self/address"
+            "configsyncIp": {{ hostvars[groups['F5_systems'][2]].vs_ip }}
         },
         "failoverAddress": {
             "class": "FailoverUnicast",
-            "address": "/Common/internal-self/address"
+            "address": {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
         },
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
-            "members": [ "{{ bigip_hostname1 }}", "{{ bigip_hostname2 }}", "{{ bigip_hostname3 }}"],
+            "members": [ {{ bigip_hostname1 }}, {{ bigip_hostname2 }}, {{ bigip_hostname3 }}],
             "owner": "/Common/failoverGroup/members/0",
             "autoSync": false,
             "saveOnAutoSync": false,

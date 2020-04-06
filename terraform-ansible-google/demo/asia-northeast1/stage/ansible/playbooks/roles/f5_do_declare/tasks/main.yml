@@ -3,10 +3,19 @@
 #- name: Include vars of relevant parameters file for the as3 template
 #  include_vars:
 #    file: "{{ role_path }}/templates/as3_parameters/{{ as3_parameters_file_name }}"
- 
+
+# Loop through all BIG-IPs and only use the appropriate DO declaration
 - name: prepare the DO declaration 
-  template: src="{{ role_path }}/templates/{{ do_template_file_name }}" dest="{{ role_path }}/files/{{ do_declaration_file_name }}"
+  template: 
+    - src: "{{ role_path }}/templates/do_scalen_template{{ item.src }}.j2"
+    - dest: "{{ role_path }}/files/do_scalen_template{{ item.dest }}.json"
   delegate_to: localhost
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { src: 1, dest: 1, when: "{{ groups['F5_systems'][0] }}" }
+    - { src: 2, dest: 2, when: "{{ groups['F5_systems'][1] }}" }
+    - { src: 3, dest: 3, when: "{{ groups['F5_systems'][2] }}" }
+
 
 - name: Getting bigip authentication token
   delegate_to: localhost
@@ -29,7 +38,7 @@
 - name: deploying DO declaration 
   delegate_to: localhost
   uri:
-    body: "{{ lookup('file', do_declaration_file_name) }}"
+    body: "{{ lookup('file', do_scalen_template{{ item.body }}.json) }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_token }}"
@@ -42,6 +51,11 @@
   until: do_status is success
   delay: 10
   retries: 20
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { body: 1, when: "{{ groups['F5_systems'][0] }}" }
+    - { body: 2, when: "{{ groups['F5_systems'][1] }}" }
+    - { body: 3, when: "{{ groups['F5_systems'][2] }}" }
 
 ##
 ## Deleting json file containing the AS3 declaration since it contains API credentials information
@@ -49,6 +63,11 @@
 
 - name: delete the DO declaration file
   file: 
-    path: "{{ role_path }}/files/{{ do_declaration_file_name }}"
+    path: "{{ role_path }}/files/do_scalen_template{{ item.path }}.json"
     state: absent
   delegate_to: localhost
+  when: "{{ inventory_hostname == item.when }}"
+  loop:
+    - { path: 1, when: "{{ groups['F5_systems'][0] }}" }
+    - { path: 2, when: "{{ groups['F5_systems'][1] }}" }
+    - { path: 3, when: "{{ groups['F5_systems'][2] }}" }

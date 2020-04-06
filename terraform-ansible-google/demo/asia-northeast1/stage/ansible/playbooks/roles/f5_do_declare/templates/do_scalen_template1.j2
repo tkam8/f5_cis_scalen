@@ -5,10 +5,10 @@
     "label": "Onboard BIG-IP into DSC cluster",
     "Common": {
         "class": "Tenant",
-        "hostname": {{ ansible_hostname }},
+        "hostname": {{ bigip1_hostname }},
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+            "configsyncIp": {{ hostvars[groups['F5_systems'][0]].vs_ip }}
         },
         "failoverAddress": {
             "class": "FailoverUnicast",
