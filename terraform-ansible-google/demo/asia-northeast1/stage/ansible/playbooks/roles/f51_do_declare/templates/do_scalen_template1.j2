@@ -8,20 +8,20 @@
         "hostname": {{ ansible_hostname }},
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": "/Common/internal-self/address"
+            "configsyncIp": {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
         },
         "failoverAddress": {
             "class": "FailoverUnicast",
-            "address": "/Common/internal-self/address"
+            "address": {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
         },
-        "failoverGroup": {
+        "syncGroup": {
             "class": "DeviceGroup",
-            "type": "sync-failover",
-            "members": ["bigip1.example.com", "bigip2.example.com"],
+            "type": "sync-only",
+            "members": [ {{ bigip_hostname1 }}, {{ bigip_hostname2 }}, {{ bigip_hostname3 }}],
             "owner": "/Common/failoverGroup/members/0",
-            "autoSync": true,
+            "autoSync": false,
             "saveOnAutoSync": false,
-            "networkFailover": true,
+            "networkFailover": false,
             "fullLoadOnSync": false,
             "asmSync": false
         },

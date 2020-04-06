@@ -4,8 +4,8 @@
 #  include_vars:
 #    file: "{{ role_path }}/templates/as3_parameters/{{ as3_parameters_file_name }}"
  
-- name: prepare the AS3 declaration 
-  template: src="{{ role_path }}/templates/{{ as3_template_file_name }}" dest="{{ role_path }}/files/{{ as3_declaration_file_name }}"
+- name: prepare the DO declaration 
+  template: src="{{ role_path }}/templates/{{ do_template_file_name }}" dest="{{ role_path }}/files/{{ do_declaration_file_name }}"
   delegate_to: localhost
 
 - name: Getting bigip authentication token
@@ -26,20 +26,20 @@
   ##
   ## If the AS3 declaration takes time, may return a 202
   ##
-- name: deploying AS3 service 
+- name: deploying DO declaration 
   delegate_to: localhost
   uri:
-    body: "{{ lookup('file', as3_declaration_file_name) }}"
+    body: "{{ lookup('file', do_declaration_file_name) }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_token }}"
     method: POST
     status_code: 200,202
-    url: "https://{{ inventory_hostname }}:{{ ADMIN_HTTPS_PORT }}/mgmt/shared/appsvcs/declare"
+    url: "https://{{ inventory_hostname }}:{{ ADMIN_HTTPS_PORT }}/mgmt/shared/declarative-onboarding"
     validate_certs: no
     timeout: 120
-  register: as3_status
-  until: as3_status is success
+  register: do_status
+  until: do_status is success
   delay: 10
   retries: 20
 
@@ -47,8 +47,8 @@
 ## Deleting json file containing the AS3 declaration since it contains API credentials information
 ##
 
-- name: delete the AS3 declaration file
+- name: delete the DO declaration file
   file: 
-    path: "{{ role_path }}/files/{{ as3_declaration_file_name }}"
+    path: "{{ role_path }}/files/{{ do_declaration_file_name }}"
     state: absent
   delegate_to: localhost
