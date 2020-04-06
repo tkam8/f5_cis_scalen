@@ -7,8 +7,8 @@
 # Loop through all BIG-IPs and only use the appropriate DO declaration
 - name: prepare the DO declaration 
   template: 
-    - src: "{{ role_path }}/templates/do_scalen_template{{ item.src }}.j2"
-    - dest: "{{ role_path }}/files/do_scalen_template{{ item.dest }}.json"
+    src: "{{ role_path }}/templates/do_scalen_template{{ item.src }}.j2"
+    dest: "{{ role_path }}/files/do_scalen_template{{ item.dest }}.json"
   delegate_to: localhost
   when: "{{ inventory_hostname == item.when }}"
   loop:
