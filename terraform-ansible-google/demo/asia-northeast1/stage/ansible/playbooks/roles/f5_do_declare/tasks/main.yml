@@ -102,7 +102,7 @@
 - name: deploying DO declaration 
   delegate_to: localhost
   uri:
-    body: "{{ lookup('file', '/files/do_scalen_template{{ item.body }}'.json) }}"
+    body: "{{ lookup('file', '/files/do_scalen_template{{ item.body }}.json') }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_token }}"
