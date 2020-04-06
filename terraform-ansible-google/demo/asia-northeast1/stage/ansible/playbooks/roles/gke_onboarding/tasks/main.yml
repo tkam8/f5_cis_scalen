@@ -76,9 +76,8 @@
     - { kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
     - { kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
-# Plan is to create a CIS deployment that points to a different BIG-IP
-# For each cluster, use a different cis deployment file that points to one BIG-IP
-- name: Create the F5 CIS Deployment from a local file and wait to become ready
+# Plan is to create three CIS deployments per cluster that points to three different BIG-IPs (one-to-one mapping)
+- name: Create the F5 CIS Deployments from a local file and wait to become ready
   k8s:
     state: present
     kubeconfig: "{{ role_path }}/../../../kubeconfig-{{ item.kubeconfig }}"
@@ -90,9 +89,15 @@
     wait_timeout: 240
   when: "{{ inventory_hostname == item.when }}"
   loop:
-    - { definition: cis1, kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
-    - { definition: cis2, kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
-    - { definition: cis3, kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+    - { definition: cis1-1, kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { definition: cis1-2, kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { definition: cis1-3, kubeconfig: 1, when: "{{ groups['gke_systems'][0] }}" }
+    - { definition: cis2-1, kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { definition: cis2-2, kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { definition: cis2-3, kubeconfig: 2, when: "{{ groups['gke_systems'][1] }}" }
+    - { definition: cis3-1, kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+    - { definition: cis3-2, kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
+    - { definition: cis3-3, kubeconfig: 3, when: "{{ groups['gke_systems'][2] }}" }
 
 
 # Create NGINX Deployment 1 on all clusters
