@@ -36,21 +36,21 @@
 - name: Set new bigip_hostname1 from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
-    bigip_hostname1: "{{ item.bigip_hostname1 }}"
+    bigip_hostname1: "{{ inventory_hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][0] }}"
 
 # This hostname will be used in the DO declaration for setting up HA
 - name: Set new bigip_hostname2 from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
-    bigip_hostname2: "{{ item.bigip_hostname2 }}"
+    bigip_hostname2: "{{ inventory_hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][1] }}"
 
 # This hostname will be used in the DO declaration for setting up HA
 - name: Set new bigip_hostname3 from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
-    bigip_hostname3: "{{ item.bigip_hostname2 }}"
+    bigip_hostname3: "{{ inventory_hostname }}"
   when: inventory_hostname == "{{ groups['F5_systems'][2] }}"
 
 # Debug
