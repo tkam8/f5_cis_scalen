@@ -5,15 +5,20 @@
   debug:
     msg: "The role path is {{ role_path }}"
 
-# debugging: Print ansible_hostname from gather facts
-- name: 
+# debugging: Get GKE facts from gather facts
+- name: Get GKE facts
+  setup:
+  register: gke_facts
+
+# debugging: Print ansible_facts from gather facts
+- name: Print ansible_facts
   debug:
-    msg: "{{ ansible_facts }}"
+    msg: "{{ gke_facts }}"
 
 # debugging: Print ansible_hostname from gather facts
-- name: 
-  debug:
-    msg: "{{ ansible_hostname }}"
+# - name: Print ansible_hostname
+#   debug:
+#     msg: "{{ ansible_hostname }}"
 
 # Create Namespace
 - name: Create a k8s namespace
@@ -68,18 +73,49 @@
     src: "{{ role_path }}/templates/svcacct_crbinding_f5_cis.yml"
 
 # Plan is to create a CIS deployment that points to a different BIG-IP, so will use "when" conditional
+# GKE Cluster 1
 - name: Create the F5 CIS Deployment from a local file and wait to become ready
   k8s:
     state: present
     kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
-    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_cis.yml.j2') }}"
+    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_cis1.yml.j2') }}"
     wait: yes
     wait_condition: 
       type=Available
       status=True
     wait_timeout: 240
   when:
-      - ansible_facts['ip'] == "{{ groups['gke_systems'][0] }}"
+      - ansible_facts['ansible_hostname'] == "{{ hostvars[groups['gke_systems'][0]].gke_name }}"
+
+# GKE Cluster 2
+- name: Create the F5 CIS Deployment from a local file and wait to become ready
+  k8s:
+    state: present
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_cis2.yml.j2') }}"
+    wait: yes
+    wait_condition: 
+      type=Available
+      status=True
+    wait_timeout: 240
+  when:
+      - ansible_facts['ansible_hostname'] == "{{ hostvars[groups['gke_systems'][1]].gke_name }}"
+
+
+# GKE Cluster 3
+- name: Create the F5 CIS Deployment from a local file and wait to become ready
+  k8s:
+    state: present
+    kubeconfig: "{{ role_path }}/../../../kubeconfig-1"
+    definition: "{{ lookup('template', '{{ role_path }}/templates/deployment_f5_cis3.yml.j2') }}"
+    wait: yes
+    wait_condition: 
+      type=Available
+      status=True
+    wait_timeout: 240
+  when:
+      - ansible_facts['ansible_hostname'] == "{{ hostvars[groups['gke_systems'][2]].gke_name }
+
 
 # Create F5 CIS configmap to expose Kibana via BIG-IP
 
