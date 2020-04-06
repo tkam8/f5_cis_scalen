@@ -54,10 +54,18 @@
   when: inventory_hostname == "{{ groups['F5_systems'][2] }}"
 
 # Debug
-- name: Display hostnames of BIG-IP Devices
+- name: Display hostname1 of BIG-IP Devices
   debug:
     var: bigip_hostname1
+
+# Debug
+- name: Display hostname2 of BIG-IP Devices
+  debug:
     var: bigip_hostname2
+
+# Debug
+- name: Display hostname3 of BIG-IP Devices
+  debug:
     var: bigip_hostname3
 
 - name: Provision ASM at "nominal" level
