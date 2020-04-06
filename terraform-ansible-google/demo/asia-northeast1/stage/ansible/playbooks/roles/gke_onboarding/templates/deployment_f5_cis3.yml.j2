@@ -78,7 +78,7 @@ spec:
             "--bigip-username=$(BIGIP_USERNAME)",
             "--bigip-password=$(BIGIP_PASSWORD)",
             # Replace with the IP address or hostname of your BIG-IP device
-            "--bigip-url=https://{{ groups['F5_systems'][0] }}:{{ bigip_mgmt_port }}",
+            "--bigip-url=https://{{ groups['F5_systems'][2] }}:{{ bigip_mgmt_port }}",
             "--bigip-partition=k8s",
             "--namespace=default",
             "--pool-member-type=nodeport",
