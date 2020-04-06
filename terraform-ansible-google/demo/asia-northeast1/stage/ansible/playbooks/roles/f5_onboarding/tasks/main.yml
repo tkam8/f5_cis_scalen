@@ -44,14 +44,14 @@
   # Currently this assumes 1 IP address in the list 
   set_fact: 
     bigip_hostname2: "{{ item.bigip_hostname2 }}"
-  when: inventory_hostname == {{ groups['F5_systems'][1] }}"
+  when: inventory_hostname == "{{ groups['F5_systems'][1] }}"
 
 # This hostname will be used in the DO declaration for setting up HA
 - name: Set new bigip_hostname3 from device_facts
   # Currently this assumes 1 IP address in the list 
   set_fact: 
     bigip_hostname3: "{{ item.bigip_hostname2 }}"
-  when: inventory_hostname == {{ groups['F5_systems'][2] }}"
+  when: inventory_hostname == "{{ groups['F5_systems'][2] }}"
 
 # Debug
 - name: Display hostnames of BIG-IP Devices
