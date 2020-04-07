@@ -12,7 +12,7 @@
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
-            "members": [ {{ hostvars[groups['F5_systems'][0]].vs_ip }}, {{ hostvars[groups['F5_systems'][1]].vs_ip }}, {{ hostvars[groups['F5_systems'][2]].vs_ip }},
+            "members": [ "{{ hostvars[groups['F5_systems'][0]].vs_ip }}", "{{ hostvars[groups['F5_systems'][1]].vs_ip }}", "{{ hostvars[groups['F5_systems'][2]].vs_ip }}",
             "owner": {{ hostvars[groups['F5_systems'][0]].vs_ip }},
             "autoSync": false,
             "saveOnAutoSync": false,
