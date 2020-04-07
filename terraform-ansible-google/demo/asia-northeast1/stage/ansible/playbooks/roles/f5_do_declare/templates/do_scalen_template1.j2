@@ -7,13 +7,13 @@
         "class": "Tenant",
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": {{ hostvars[groups['F5_systems'][0]].vs_ip }}
+            "configsyncIp": "{{ hostvars[groups['F5_systems'][0]].vs_ip }}"
         },
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
             "members": [ "{{ hostvars[groups['F5_systems'][0]].vs_ip }}", "{{ hostvars[groups['F5_systems'][1]].vs_ip }}", "{{ hostvars[groups['F5_systems'][2]].vs_ip }}",
-            "owner": {{ hostvars[groups['F5_systems'][0]].vs_ip }},
+            "owner": "{{ hostvars[groups['F5_systems'][0]].vs_ip }}",
             "autoSync": false,
             "saveOnAutoSync": false,
             "networkFailover": false,
@@ -21,11 +21,11 @@
         },
         "trust": {
             "class": "DeviceTrust",
-            "localUsername": {{ ADMIN_USER }},
-            "localPassword": {{ ADMIN_PASSWORD }},
-            "remoteHost": {{ hostvars[groups['F5_systems'][0]].vs_ip }},
-            "remoteUsername": {{ ADMIN_USER }},
-            "remotePassword": {{ ADMIN_PASSWORD }}
+            "localUsername": "{{ ADMIN_USER }}",
+            "localPassword": "{{ ADMIN_PASSWORD }}",
+            "remoteHost": "{{ hostvars[groups['F5_systems'][0]].vs_ip }}",
+            "remoteUsername": "{{ ADMIN_USER }}",
+            "remotePassword": "{{ ADMIN_PASSWORD }}"
         }
     }
 }
