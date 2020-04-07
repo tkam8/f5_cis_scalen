@@ -14,7 +14,7 @@
             "class": "DeviceGroup",
             "type": "sync-only",
             "members": [ {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }}, {{ hostvars[groups['F5_systems'][1]].bigip2_hostname }}, {{ hostvars[groups['F5_systems'][2]].bigip3_hostname }}],
-            "owner": "/Common/syncGroup/members/0",
+            "owner": {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }},
             "autoSync": false,
             "saveOnAutoSync": false,
             "networkFailover": false,
@@ -25,7 +25,7 @@
             "class": "DeviceTrust",
             "localUsername": {{ ADMIN_USER }},
             "localPassword": {{ ADMIN_PASSWORD }},
-            "remoteHost": "/Common/syncGroup/members/0",
+            "remoteHost":{{ hostvars[groups['F5_systems'][0]].bigip1_hostname }},
             "remoteUsername": {{ ADMIN_USER }},
             "remotePassword": {{ ADMIN_PASSWORD }}
         }
