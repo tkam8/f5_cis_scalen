@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-bigip-ctlr-deployment
+  name: k8s-bigip-ctlr-deployment-bip2
   namespace: kube-system
 spec:
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: k8s-bigip-ctlr
+      app: k8s-bigip-ctlr2
   # DO NOT INCREASE REPLICA COUNT
   replicas: 1
   strategy:
@@ -23,15 +23,15 @@ spec:
         seccomp.security.alpha.kubernetes.io/defaultProfileName: unconfined
         seccomp.security.alpha.kubernetes.io/pod: unconfined
       creationTimestamp: null
-      name: k8s-bigip-ctlr
+      name: k8s-bigip-ctlr2
       labels:
-        app: k8s-bigip-ctlr
+        app: k8s-bigip-ctlr2
     spec:
       # Name of the Service Account bound to a Cluster Role with the required
       # permissions
       serviceAccountName: k8s-bigip-ctlr
       containers:
-        - name: k8s-bigip-ctlr
+        - name: k8s-bigip-ctlr2
           image: "f5networks/k8s-bigip-ctlr:latest"
           env:
             - name: BIGIP_USERNAME
