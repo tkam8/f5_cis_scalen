@@ -34,6 +34,6 @@ inputs = {
   BIGIP_PASS        = get_env("BIGIP_PASS", "default")
   TS_URL            = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.10.0/f5-telemetry-1.10.0-2.noarch.rpm"
   AS3_URL           = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.18.0/f5-appsvcs-3.18.0-4.noarch.rpm"
-  DO_URL            = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.11.0/f5-declarative-onboarding-1.11.0-1.noarch.rpm"
+  DO_URL            = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.11.1/f5-declarative-onboarding-1.11.1-1.noarch.rpm"
 }
 
