@@ -13,19 +13,18 @@
         "syncGroup": {
             "class": "DeviceGroup",
             "type": "sync-only",
-            "members": [ {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }}, {{ hostvars[groups['F5_systems'][1]].bigip2_hostname }}, {{ hostvars[groups['F5_systems'][2]].bigip3_hostname }}],
-            "owner": {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }},
+            "members": [ {{ hostvars[groups['F5_systems'][0]].vs_ip }}, {{ hostvars[groups['F5_systems'][1]].vs_ip }}, {{ hostvars[groups['F5_systems'][2]].vs_ip }},
+            "owner": {{ hostvars[groups['F5_systems'][0]].vs_ip }},
             "autoSync": false,
             "saveOnAutoSync": false,
             "networkFailover": false,
-            "fullLoadOnSync": false,
             "asmSync": false
         },
         "trust": {
             "class": "DeviceTrust",
             "localUsername": {{ ADMIN_USER }},
             "localPassword": {{ ADMIN_PASSWORD }},
-            "remoteHost": {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }},
+            "remoteHost": {{ hostvars[groups['F5_systems'][0]].vs_ip }},
             "remoteUsername": {{ ADMIN_USER }},
             "remotePassword": {{ ADMIN_PASSWORD }}
         }
