@@ -5,7 +5,6 @@
     "label": "Onboard BIG-IP into DSC cluster",
     "Common": {
         "class": "Tenant",
-        "hostname": {{ hostvars[groups['F5_systems'][0]].bigip1_hostname }},
         "configsync": {
             "class": "ConfigSync",
             "configsyncIp": {{ hostvars[groups['F5_systems'][0]].vs_ip }}
